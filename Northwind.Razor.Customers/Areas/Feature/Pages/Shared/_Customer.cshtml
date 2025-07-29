@@ -1,0 +1,9 @@
+@model Northwind.EntityModels.Customer
+
+<div class="card border-dark mb-3" style="max-width: 18rem;">
+    <div class="card-header">@Model?.ContactName, @Model?.CompanyName</div>
+    <div class="card-body text-dark">
+        <p class="card-text">Phone: @Model?.Phone</p>
+        <p class="card-text">City: @Model?.City</p>
+    </div>
+</div>

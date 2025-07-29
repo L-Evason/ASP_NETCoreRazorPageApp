@@ -1,0 +1,19 @@
+﻿@page
+@using Northwind.EntityModels
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Northwind.Razor.Customers.CustomersList
+
+<div class="row">
+    <h1 class="display-2">Customers</h1>
+</div>
+<div class="row">
+    @foreach(Customer customer in Model.Customers)
+    {
+        <div class="col-sm-3">
+            <partial name="_Customer" model="customer" />
+            <a class="btn btn-primary" href="/Feature/CustomerDetails?id=@customer.CustomerId"> @* Use query string syntax to pass Id value*@
+                Customer Details
+            </a>
+        </div>
+    }
+</div>

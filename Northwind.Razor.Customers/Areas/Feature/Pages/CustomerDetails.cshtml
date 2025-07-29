@@ -1,0 +1,45 @@
+@page
+@using Northwind.EntityModels
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Northwind.Razor.CustomerDetails.CustomersDetail
+
+<h2>Customer Details</h2>
+
+@if (Model.Customer != null)
+{
+    <dl class="row">
+        <dt class="col-sm-2">Company Name</dt>
+        <dd class="col-sm-10">@Model.Customer.CompanyName</dd>
+
+        <dt class="col-sm-2">Address</dt>
+        <dd class="col-sm-10">
+            @Model.Customer.Country, @Model.Customer.Region, @Model.Customer.City, @Model.Customer.PostalCode
+        </dd>
+    </dl>
+
+    <h3>Customer Orders</h3>
+    @foreach (Order order in Model.Customer.Orders)
+    {
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Order ID: @order.OrderId</h5>
+                <p class="card-text">Order Date: @order.OrderDate?.ToString("yyyy-MM-dd")</p>
+                <p class="card-text">Date Shipped: @order.ShippedDate?.ToString("yyyy-MM-dd")</p>
+
+                <h6>Order Details:</h6>
+                <ul>
+                    @foreach (var detail in order.OrderDetails)
+                    {
+                        <li>
+                            Product ID: @detail.ProductId, Quantity: @detail.Quantity, Unit Price: $@detail.UnitPrice
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p>Customer not found.</p>
+}
