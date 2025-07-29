@@ -3,3 +3,4 @@ C# 12 and .NET 8 – Modern Cross-Platform Development Fundamentals"_ by Mark J.
 ISBN-13: 978-1837635870
 
 The chapter covers building web services with ASP.NET Core Razor pages
+which interact with the Northwind database.
