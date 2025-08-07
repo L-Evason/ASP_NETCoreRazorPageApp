@@ -1,0 +1,44 @@
+@model Northwind.EntityModels.Category 
+@{
+  ViewData["Title"] = $"Category Detail - {Model.CategoryName}";
+}
+<h2>Category Detail</h2>
+<p class="alert alert-@ViewData["alertstyle"]">@DateTime.Now.ToLongTimeString()</p>
+<hr />
+<div>
+  <dl class="dl-horizontal">
+    <dt>Category Id</dt>
+    <dd>@Model.CategoryId</dd>
+    <dt>Category Name</dt>
+    <dd>@Model.CategoryName</dd>
+    <dt>Products in this Category</dt>
+    @if (Model.Products?.Any() == true)
+    {
+    <table class="table table-sm table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Product Id</th>
+                <th>Product Name</th>
+                <th>Unit Price</th>
+                <th>Units In Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@product.ProductId</td>
+                    <td>@product.ProductName</td>
+                    <td>@(product.UnitPrice is null ? "zero" : product.UnitPrice.Value.ToString("C"))</td>
+                    <td>@product.UnitsInStock</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+    else
+    {
+        <p>No products found in this category.</p>
+    }
+  </dl>
+</div>

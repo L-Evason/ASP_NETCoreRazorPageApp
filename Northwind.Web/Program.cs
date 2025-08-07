@@ -29,7 +29,6 @@ app.Use(async (HttpContext context, Func<Task> next) =>
     await context.Response.WriteAsync("Bonjour Monde!");
     return;
   }
-  // We could modify the request before calling the next delegate.
   await next();
   // We could modify the response after calling the next delegate.
 });
