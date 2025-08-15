@@ -1,4 +1,5 @@
 ﻿@page "/"
+@rendermode RenderMode.InteractiveServer
 
 <PageTitle>Home</PageTitle>
 
@@ -9,3 +10,33 @@ Welcome to your new app.
 <NavLink href="/times-table" class="nav-link" activeClass="active">
     Go to Times Table
 </NavLink> 
+
+<button type="button" class="btn btn-info" @onclick="AlertBrowser">
+  Poke the browser</button>
+<hr />
+<input id="colorBox" />
+<button type="button" class="btn btn-info" @onclick="SetColor">
+  Set Color</button>
+<button type="button" class="btn btn-info" @onclick="GetColor">
+  Get Color</button>
+
+@code {
+[Inject]
+public IJSRuntime JSRuntime { get; set; } = null!;
+
+public async Task AlertBrowser()
+{
+await JSRuntime.InvokeVoidAsync(
+    "messageBox", "Blazor poking the browser");
+}
+
+public async Task SetColor()
+{
+await JSRuntime.InvokeVoidAsync("setColorInStorage");
+}
+
+public async Task GetColor()
+{
+await JSRuntime.InvokeVoidAsync("getColorFromStorage");
+}
+}
