@@ -1,0 +1,77 @@
+@page "/times-table"
+@using System.ComponentModel.DataAnnotations
+
+<h3>Enter positive integers to load the corresponding times table</h3>
+
+<EditForm Model="@Model" OnValidSubmit="Submit" FormName="Model">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <InputText @bind-Value="Model!.Number" placeholder="7" />
+    <InputText @bind-Value="Model!.Size" placeholder="12" />
+    <button type="submit">Submit</button>
+</EditForm>
+
+
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{   
+    <p style="color: red">@ErrorMessage</p>
+}
+
+@if (ShowResults)
+{   
+    <h3>Times Table Results</h3>
+    <p>Number: @ParsedNumber</p>
+    <p>Size: @ParsedSize</p>
+    
+    @for (int i = 0; i <= ParsedSize; i++)
+    {
+        <p>@ParsedNumber * @i = @(ParsedNumber * i)</p>
+    }
+}
+
+@code {
+    public class TimesTableForm
+    {
+        [Required(ErrorMessage = "Please enter a number.")]
+        public string? Number { get; set; }
+        [Required(ErrorMessage = "Please enter a number.")]
+        public string? Size { get; set; }
+    }
+    [SupplyParameterFromForm] // Required? to pass data from form to model
+    private TimesTableForm? Model { get; set; }
+    protected override void OnInitialized() => Model ??= new()
+    {
+        Number = "7",
+        Size = "12"
+    };
+    private string? ErrorMessage { get; set; }
+    private bool ShowResults { get; set; } = false;
+    private int ParsedNumber { get; set; }
+    private int ParsedSize { get; set; }
+
+    private void Submit()
+    {
+        ErrorMessage = null;
+        ShowResults = false;
+        Model.Number = Model.Number.Trim(); // Normalise and trim whitespace
+        Model.Size = Model.Size.Trim();
+
+        if (int.TryParse(Model.Number, out int number) && int.TryParse(Model.Size, out int size))
+        {
+            if (number > 0 && size > 0)
+            {
+                ParsedNumber = number;
+                ParsedSize = size;
+                ShowResults = true;  // render page
+            }
+            else
+            {
+                ErrorMessage = "Both numbers must be greater than zero.";
+            }
+        }
+        else
+        {
+            ErrorMessage = "Please enter valid integers.";
+        }
+    }
+}
